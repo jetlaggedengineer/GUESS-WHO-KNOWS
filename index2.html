@@ -1,0 +1,190 @@
+[1:31 pm, 16/09/2025] .:     border…
+[1:31 pm, 16/09/2025] .: <!DOCTYPE html>
+<html>
+<head>
+  <title>Guess Who Knows IT? 😉</title>
+  <style>
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1; /* behind content */
+    }
+
+    body {
+      background-color: black;
+      color: #00ffcc;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 15%;
+      transition: background-color 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 50px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #00ffcc;
+      color: black;
+      font-weight: bold;
+      transition: 0.3s;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background: #ff00cc;
+      color: white;
+    }
+
+    #hiddenButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: none;
+      padding: 8px 12px;
+      font-size: 14px;
+      background: #ff00cc;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #hiddenButton:hover {
+      background: #00ffcc;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrixCanvas"></canvas>
+
+  <h1 id="header"> </h1>
+  <p>— [I EAT MEN LIKE YOU FOR BREAKFAST]</p>
+
+  <button onclick="changeColor()">Change Background</button>
+  <button onclick="popupMessage()">Click Me 😉</button>
+  <button id="hiddenButton" onclick="hiddenClick()">Activate IT Master Mode 😎</button>
+
+  <script>
+    // =======================
+    // Typing effect header
+    // =======================
+    const header = document.getElementById("header");
+    const text = "I DO know IT 💻🔥";
+    let i = 0;
+    function typeHeader() {
+      if(i < text.length){
+        header.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeHeader, 100);
+      }
+    }
+
+    // =======================
+    // Background color button
+    // =======================
+    function changeColor() {
+      const colors = ["black", "#1a1a1a", "#330033", "#002b36", "#003300", "#331a00"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // =======================
+    // Pop-up button message
+    // =======================
+    function popupMessage() {
+      alert("Who said I don’t know IT? 😎💻");
+    }
+
+    // =======================
+    // Hidden hover button
+    // =======================
+    const hiddenButton = document.getElementById("hiddenButton");
+    document.body.addEventListener("mousemove", (e)=>{
+      if(e.clientX > window.innerWidth - 50 && e.clientY < 50){
+        hiddenButton.style.display = "block";
+      } else {
+        hiddenButton.style.display = "none";
+      }
+    });
+    function hiddenClick(){
+      header.textContent = "IT Master Mode 😎";
+      alert("💥 You found the hidden button! 💻");
+    }
+
+    // =======================
+    // Matrix effect
+    // =======================
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const fontSize = 20;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = fontSize + "px monospace";
+
+      for(let i = 0; i < drops.length; i++){
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+        if(drops[i]*fontSize > canvas.height || Math.random() > 0.95){
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    // =======================
+    // Easter egg: IWIN key
+    // =======================
+    let secretCode = "IWIN";
+    let inputCode = "";
+    document.addEventListener("keydown", function(e){
+      inputCode += e.key.toUpperCase();
+      if(inputCode.includes(secretCode)){
+        alert("💥 Surprise! IT Master Mode Activated 💻😎");
+        inputCode = "";
+      }
+      if(inputCode.length > secretCode.length){
+        inputCode = inputCode.slice(-secretCode.length);
+      }
+    });
+
+    // =======================
+    // Konami Code
+    // =======================
+    const konami = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","("keydown", (e) => {
+      konamiInput.push(e.key);
+      if(konamiInput.toString().includes(konami.toString())){
+        alert("🎉 Konami Code Activated! You found the secret! 💻");
+        konamiInput = [];
+      }
+      if(konamiInput.length > konami.length) konamiInput.shift();
+    });
+
+    // =======================
+    // Page load
+    // =======================
+    window.onload = function(){
+      alert("Welcome! Ready to see some IT magic? 😉");
+      typeHeader();
+      setInterval(drawMatrix, 50);
+    };
+  </script>
+</body>
+</html>
